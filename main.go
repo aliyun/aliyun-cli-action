@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -23,9 +22,9 @@ func main() {
 	if err := GetAliyunCliPkg(); err != nil {
 		log.Fatal(err)
 	}
-	if err := ConfigAliyunCli(); err != nil {
-		log.Fatal(err)
-	}
+	// if err := ConfigAliyunCli(); err != nil {
+	// 	log.Fatal(err)
+	// }
 }
 
 func ConfigAliyunCli() error {
@@ -93,13 +92,15 @@ func GetAliyunCliPkg() error {
 		ext = "tgz"
 	}
 	var url = "https://github.com/aliyun/aliyun-cli/releases/download/v" + version + "/aliyun-cli-" + system + "-" + version + "-amd64." + ext
-	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 	if ext == "tgz" {
+		if err := os.Mkdir("output", 0777); err != nil {
+			return err
+		}
 		file, err := os.Create("./output/aliyun.tgz")
 		if err != nil {
 			return err
@@ -115,18 +116,18 @@ func GetAliyunCliPkg() error {
 		}
 		return nil
 	}
-	// file, err := os.Create("./aliyun.zip")
-	// if err != nil {
-	// 	return err
-	// }
-	// defer file.Close()
-	// _, err = io.Copy(file, resp.Body)
-	// if err != nil {
-	// 	return err
-	// }
-	// cmd := exec.Command("unzip", "aliyun.zip", "-d", "cli")
-	// if err := cmd.Run(); err != nil {
-	// 	return err
-	// }
+	file, err := os.Create("./aliyun.zip")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = io.Copy(file, resp.Body)
+	if err != nil {
+		return err
+	}
+	cmd := exec.Command("unzip", "aliyun.zip", "-d", "cli")
+	if err := cmd.Run(); err != nil {
+		return err
+	}
 	return nil
 }

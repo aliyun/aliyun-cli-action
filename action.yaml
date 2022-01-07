@@ -1,0 +1,28 @@
+name: 'Aliyun CLI'
+description: set config in non interactive mode
+# inputs:
+#   version:
+#     description: Aliyun cli version
+#     required: false
+#     default: ''
+#   platform:
+#     description: OS platform
+#     required: false
+#     default: 'amd64'
+#   dry-run:
+#     description: Dry run
+#     required: false
+#     default: 'false'
+
+
+runs:
+  using: 'composite'
+  steps:
+    - id: download
+      shell: bash
+      run: |
+        go run main.go
+        mv ./output/aliyun /usr/local/bin/
+branding:
+  icon: 'cloud-lightning'
+  color: 'orange'
