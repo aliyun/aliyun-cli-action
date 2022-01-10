@@ -8,7 +8,7 @@ runs:
       shell: bash
       run: |
         go run main.go
-        cp ./output/aliyun /usr/local/bin/
+        dir
 branding:
   icon: 'cloud-lightning'
   color: 'orange'
