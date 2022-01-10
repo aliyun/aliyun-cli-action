@@ -18,13 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Aliyun CLI
-        uses: ./
-        with:
-          access-key-id: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
-          access-key-secret: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
-          region: ${{ secrets.ALIYUN_REGION }}
+      # - name: Setup Aliyun CLI
+      #   uses: ./
+      #   with:
+      #     access-key-id: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+      #     access-key-secret: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+      #     region: ${{ secrets.ALIYUN_REGION }}
 
       - name: Test
         run: |
-          ./aliyun --help
+          ./output/aliyun --help
